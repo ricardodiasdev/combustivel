@@ -10,12 +10,11 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-import logo from "./src/images/logo.png";
 import gas from "./src/images/gas.png";
 
 export default function App() {
-  const [alcool, setAlcool] = useState(0);
-  const [gasolina, setGasolina] = useState(0);
+  const [alcool, setAlcool] = useState();
+  const [gasolina, setGasolina] = useState();
   const [calculo, setCalculo] = useState();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -23,22 +22,15 @@ export default function App() {
     if (alcool > 0 && gasolina > 0) {
       setCalculo(alcool / gasolina);
       Keyboard.dismiss();
-      setIsVisible(true);
+      alert(String(calculo));
     } else {
       alert("Preencha os valores dos combustíveis");
     }
   };
-
-  const handleCalcularNovamente = () => {
-    setIsVisible(false);
-    setAlcool(0);
-    setGasolina(0);
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image source={logo} />
+        <Image source={gas} />
         <Text style={styles.logoText}>Qual melhor opção?</Text>
       </View>
       <View style={styles.inputContainer}>
@@ -63,33 +55,6 @@ export default function App() {
         <TouchableOpacity onPress={handleCalcular} style={styles.btn}>
           <Text style={styles.btnText}>Calcular</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.centeredView}>
-        <Modal animationType="slide" visible={isVisible}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View style={styles.header}>
-                <Image source={gas} />
-                <Text style={{ color: "green", colorWeight: "bold" }}>
-                  Compensa usar {calculo <= 0.7 ? "Álcool" : "Gasolina"}
-                </Text>
-              </View>
-              <View>
-                <Text style={styles.fuelText}>Com os preços:</Text>
-                <Text style={styles.fuelText}>Álcool: R$ {alcool}</Text>
-                <Text style={styles.fuelText}>Gasolina: R$ {gasolina}</Text>
-              </View>
-              <View style={styles.btnContainer}>
-                <TouchableOpacity
-                  onPress={handleCalcularNovamente}
-                  style={styles.btn}
-                >
-                  <Text style={styles.btnText}>Calcula novamente</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
       </View>
     </View>
   );
@@ -142,26 +107,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "#FFF",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'black',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
 });
